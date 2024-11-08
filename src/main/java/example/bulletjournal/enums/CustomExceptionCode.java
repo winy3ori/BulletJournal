@@ -7,8 +7,12 @@ public enum CustomExceptionCode {
     // Todo
     NOT_FOUND_TODO("NOT_FOUND_TODO", "TODO를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
-    // User
+    // Member
     NOT_FOUND_MEMBER("NOT_FOUND_MEMBER", "사용자를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATED_NICKNAME("DUPLICATED_NICKNAME", "이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST),
+
+    //Email 인증
+    DUPLICATED_EMAIL("DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.", HttpStatus.BAD_REQUEST),
 
     UNAUTHORIZED_USER("UNAUTHORIZED_USER", "권한이 없는 사용자입니다.", HttpStatus.BAD_REQUEST),
     EXPIRED_JWT("EXPIRED_JWT","만료된 토큰입니다.", HttpStatus.BAD_REQUEST),

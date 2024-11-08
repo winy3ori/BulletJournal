@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-@Entity
 @Builder
 public class TodoDto {
 

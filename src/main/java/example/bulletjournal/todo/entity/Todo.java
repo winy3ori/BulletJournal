@@ -1,6 +1,5 @@
 package example.bulletjournal.todo.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import example.bulletjournal.enums.TodoPriority;
 import example.bulletjournal.enums.TodoType;
 import jakarta.persistence.*;
