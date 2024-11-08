@@ -20,7 +20,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/sing-up")
+    @PostMapping("/sign-up")
     public ResponseEntity<ResultDTO> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
         try {
             MemberSignUpDto result = memberService.signUp(memberSignUpDto);

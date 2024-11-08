@@ -37,8 +37,8 @@ public class Member {
         this.role = Role.USER;
     }
 
-//    public void updateRefreshToken(String updateRefreshToken) {
-//        this.refreshToken = updateRefreshToken;
-//    }
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
 
 }

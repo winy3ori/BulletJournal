@@ -34,17 +34,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-
-
     // 테스트 의존성
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // Spring Security 의존성
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    // OAuth2 클라이언트 (Optional, 필요한 경우)
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
