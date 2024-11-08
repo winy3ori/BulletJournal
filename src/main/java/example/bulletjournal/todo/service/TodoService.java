@@ -8,4 +8,6 @@ public interface TodoService {
 
 
     TodoDto createTodo(TodoDto request);
+
+    void deleteTodo(Long todoId, Long userId);
 }

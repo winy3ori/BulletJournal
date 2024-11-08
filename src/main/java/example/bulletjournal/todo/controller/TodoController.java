@@ -22,13 +22,22 @@ public class TodoController {
     public ResponseEntity<ResultDTO> createTodo(@RequestBody TodoDto request) {
         try {
             TodoDto result = todoService.createTodo(request);
-            return ResponseEntity.ok(ResultDTO.of(true, ApiResponseCode.SUCCESS.getCode(), "모임 생성 완료.", result));
+            return ResponseEntity.ok(ResultDTO.of(true, ApiResponseCode.SUCCESS.getCode(), "Todo 생성 완료", result));
         } catch (CustomException e) {
             return ResponseEntity.status(e.getCustomErrorCode().getHttpStatus())
                     .body(ResultDTO.of(false, e.getCustomErrorCode().getStatusCode(), e.getDetailMessage(), null));
         }
     }
 
-
+    @DeleteMapping("/delete/")
+    public ResponseEntity<ResultDTO> deleteTodo(@RequestParam Long todoId, @RequestParam Long userId) {
+        try {
+            todoService.deleteTodo(todoId, userId);
+            return ResponseEntity.ok(ResultDTO.of(true, ApiResponseCode.SUCCESS.getCode(), "Todo 삭제 완료", null));
+        } catch (CustomException e) {
+            return ResponseEntity.status(e.getCustomErrorCode().getHttpStatus())
+                    .body(ResultDTO.of(false, e.getCustomErrorCode().getStatusCode(), e.getDetailMessage(), null));
+        }
+    }
 
 }

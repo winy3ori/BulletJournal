@@ -1,8 +1,12 @@
 package example.bulletjournal.todo.service;
 
+import example.bulletjournal.enums.CustomExceptionCode;
+import example.bulletjournal.exception.CustomException;
 import example.bulletjournal.todo.dto.TodoDto;
 import example.bulletjournal.todo.entity.Todo;
 import example.bulletjournal.todo.repository.TodoRepository;
+import example.bulletjournal.user.entity.User;
+import example.bulletjournal.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import java.time.LocalDateTime;
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
 
     @Override
     public TodoDto createTodo(TodoDto request) {
@@ -41,5 +46,20 @@ public class TodoServiceImpl implements TodoService {
                 .priority(newTodo.getPriority())
                 .type(newTodo.getType())
                 .build();
+    }
+
+    @Override
+    public void deleteTodo(Long todoId, Long userId) {
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new CustomException(CustomExceptionCode.NOT_FOUND_TODO));
+
+        userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(CustomExceptionCode.NOT_FOUND));
+
+        if (!todo.getUserId().equals(userId)) {
+            throw new CustomException(CustomExceptionCode.UNAUTHORIZED_USER);
+        }
+
+        todoRepository.delete(todo);
     }
 }
