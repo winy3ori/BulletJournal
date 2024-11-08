@@ -25,7 +25,7 @@ public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long todoId;
-    private Long userId;
+    private Long memberId;
 
     private String title;
     private String description;

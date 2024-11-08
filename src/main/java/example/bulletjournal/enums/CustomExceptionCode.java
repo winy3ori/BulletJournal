@@ -8,7 +8,7 @@ public enum CustomExceptionCode {
     NOT_FOUND_TODO("NOT_FOUND_TODO", "TODO를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     // User
-    NOT_FOUND_USER("NOT_FOUND_USER", "사용자를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_MEMBER("NOT_FOUND_MEMBER", "사용자를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     UNAUTHORIZED_USER("UNAUTHORIZED_USER", "권한이 없는 사용자입니다.", HttpStatus.BAD_REQUEST),
     EXPIRED_JWT("EXPIRED_JWT","만료된 토큰입니다.", HttpStatus.BAD_REQUEST),

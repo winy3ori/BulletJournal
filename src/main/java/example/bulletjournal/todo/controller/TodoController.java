@@ -30,9 +30,9 @@ public class TodoController {
     }
 
     @DeleteMapping("/delete/")
-    public ResponseEntity<ResultDTO> deleteTodo(@RequestParam Long todoId, @RequestParam Long userId) {
+    public ResponseEntity<ResultDTO> deleteTodo(@RequestParam Long todoId, @RequestParam Long memberId) {
         try {
-            todoService.deleteTodo(todoId, userId);
+            todoService.deleteTodo(todoId, memberId);
             return ResponseEntity.ok(ResultDTO.of(true, ApiResponseCode.SUCCESS.getCode(), "Todo 삭제 완료", null));
         } catch (CustomException e) {
             return ResponseEntity.status(e.getCustomErrorCode().getHttpStatus())

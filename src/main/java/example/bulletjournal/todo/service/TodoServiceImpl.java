@@ -5,13 +5,10 @@ import example.bulletjournal.exception.CustomException;
 import example.bulletjournal.todo.dto.TodoDto;
 import example.bulletjournal.todo.entity.Todo;
 import example.bulletjournal.todo.repository.TodoRepository;
-import example.bulletjournal.user.entity.User;
-import example.bulletjournal.user.repository.UserRepository;
+import example.bulletjournal.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -19,14 +16,14 @@ import java.time.LocalDateTime;
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
-    private final UserRepository userRepository;
+    private final MemberRepository userRepository;
 
     @Override
     public TodoDto createTodo(TodoDto request) {
 
         Todo newTodo = Todo.builder()
                 .todoId(request.getTodoId())
-                .userId(request.getUserId())
+                .memberId(request.getMemberId())
                 .title(request.getTitle())  // 제목
                 .description(request.getDescription()) // 내용
                 .date(request.getDate()) // 날짜
@@ -39,7 +36,7 @@ public class TodoServiceImpl implements TodoService {
 
         return TodoDto.builder()
                 .todoId(newTodo.getTodoId())
-                .userId(newTodo.getUserId())
+                .memberId(newTodo.getMemberId())
                 .title(newTodo.getTitle())
                 .description(newTodo.getDescription())
                 .date(newTodo.getDate())
@@ -56,7 +53,7 @@ public class TodoServiceImpl implements TodoService {
         userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(CustomExceptionCode.NOT_FOUND));
 
-        if (!todo.getUserId().equals(userId)) {
+        if (!todo.getMemberId().equals(userId)) {
             throw new CustomException(CustomExceptionCode.UNAUTHORIZED_USER);
         }
 
