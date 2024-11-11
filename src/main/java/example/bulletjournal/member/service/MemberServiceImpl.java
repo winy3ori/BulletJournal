@@ -1,6 +1,9 @@
 package example.bulletjournal.member.service;
 
+import example.bulletjournal.emailAuth.entity.EmailAuth;
+import example.bulletjournal.emailAuth.repository.EmailAuthRepository;
 import example.bulletjournal.enums.CustomExceptionCode;
+import example.bulletjournal.enums.EmailAuthStatus;
 import example.bulletjournal.enums.Role;
 import example.bulletjournal.exception.CustomException;
 import example.bulletjournal.member.dto.MemberSignUpDto;
@@ -18,10 +21,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final EmailAuthRepository emailAuthRepository;
+
     private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public MemberSignUpDto signUp(MemberSignUpDto memberSignUpDto) {
+
+        // 이메일 인증 여부 확인
+        EmailAuth emailAuth = emailAuthRepository.findByEmail(memberSignUpDto.getEmail())
+                .orElseThrow(() -> new CustomException(CustomExceptionCode.NOT_COMPLETE_AUTH));
+
+        if (!emailAuth.getEmailAuthStatus().equals(EmailAuthStatus.VERIFIED)) {
+            throw new CustomException(CustomExceptionCode.NOT_COMPLETE_AUTH);
+        }
+
         // 이메일 중복 체크
         if (memberRepository.findByEmail(memberSignUpDto.getEmail()).isPresent()) {
             throw new CustomException(CustomExceptionCode.DUPLICATED_EMAIL);
@@ -32,20 +47,18 @@ public class MemberServiceImpl implements MemberService {
             throw new CustomException(CustomExceptionCode.DUPLICATED_NICKNAME);
         }
 
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(memberSignUpDto.getPassword());
-
-        // Member 엔티티 생성
+        String password = passwordEncoder.encode(memberSignUpDto.getPassword());
 
         Member member = Member.builder()
                 .email(memberSignUpDto.getEmail())
-                .password(encodedPassword)  // 암호화된 비밀번호 사용
+                .password(password)
                 .nickname(memberSignUpDto.getNickname())
                 .age(memberSignUpDto.getAge())
                 .city(memberSignUpDto.getCity())
-                .role(Role.USER)  // 기본 역할 USER
+                .role(Role.USER)
                 .build();
 
+        // 멤버 저장
         memberRepository.save(member);
         return memberSignUpDto;
     }

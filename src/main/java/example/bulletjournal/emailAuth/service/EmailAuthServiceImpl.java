@@ -1,10 +1,14 @@
 package example.bulletjournal.emailAuth.service;
 
+import example.bulletjournal.emailAuth.dto.EmailAuthDto;
 import example.bulletjournal.emailAuth.entity.EmailAuth;
 import example.bulletjournal.emailAuth.repository.EmailAuthRepository;
+import example.bulletjournal.enums.CustomExceptionCode;
 import example.bulletjournal.enums.EmailAuthStatus;
+import example.bulletjournal.exception.CustomException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,8 +17,8 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailAuthServiceImpl implements EmailAuthService {
@@ -68,14 +72,18 @@ public class EmailAuthServiceImpl implements EmailAuthService {
         return response;
     }
 
-    // 이메일 인증 코드 확인
-    public boolean verifyEmail(String email, String code) {
-        return emailAuthRepository.findByEmail(email)
-                .filter(emailAuth -> emailAuth.getVerityCode().equals(code))
-                .map(emailAuth -> {
-                    emailAuth.setEmailAuthStatus(EmailAuthStatus.VERIFIED);
-                    emailAuthRepository.save(emailAuth);
-                    return true;
-                }).orElse(false);
+    @Override
+    public EmailAuthDto emailCheck(EmailAuthDto emailAuthDto) {
+        EmailAuth emailAuth = emailAuthRepository.findByEmail(emailAuthDto.getEmail())
+                .orElseThrow(() -> new CustomException(CustomExceptionCode.NOT_FOUND_EMAIL));
+
+        if (!emailAuth.getVerityCode().equals(emailAuthDto.getVerifyCode())) {
+            throw new CustomException(CustomExceptionCode.INVALID_VERIF_CODE);
+        }
+
+        emailAuth.setEmailAuthStatus(EmailAuthStatus.VERIFIED);
+        emailAuthRepository.save(emailAuth);
+        return emailAuthDto;
     }
+
 }

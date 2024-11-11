@@ -1,10 +1,11 @@
 package example.bulletjournal.member.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@Getter
+@Data
 public class MemberSignUpDto {
 
     // email 회원가입시 사용할 dto

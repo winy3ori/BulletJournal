@@ -1,12 +1,15 @@
 package example.bulletjournal.emailAuth.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 public class EmailAuthDto {
 
     private String email;
     private String verifyCode;
+
 }

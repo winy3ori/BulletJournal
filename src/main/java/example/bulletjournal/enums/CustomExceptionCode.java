@@ -13,6 +13,7 @@ public enum CustomExceptionCode {
 
     //Email 인증
     DUPLICATED_EMAIL("DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.", HttpStatus.BAD_REQUEST),
+    NOT_COMPLETE_AUTH("NOT_COMPLETE_AUTH","인증이 완료되지 않음", HttpStatus.BAD_REQUEST),
 
     UNAUTHORIZED_USER("UNAUTHORIZED_USER", "권한이 없는 사용자입니다.", HttpStatus.BAD_REQUEST),
     EXPIRED_JWT("EXPIRED_JWT","만료된 토큰입니다.", HttpStatus.BAD_REQUEST),
@@ -37,7 +38,6 @@ public enum CustomExceptionCode {
     VERIFIED_MEMBER("VERIFIED_MEMBER", "이미 인증이 완료된 회원", HttpStatus.BAD_REQUEST),
     INVALID_AUTH("INVALID_AUTH", "유효하지 않은 인증", HttpStatus.BAD_REQUEST),
     EXPIRED_AUTH("EXPIRED_AUTH", "만료된 인증", HttpStatus.BAD_REQUEST),
-    NOT_COMPLETE_AUTH("NOT_COMPLETE_AUTH","인증이 완료되지 않음", HttpStatus.BAD_REQUEST),
     NOT_FOUND_CLUB("NOT_COMPLETE_CLUB","존재하지 않는 모임입니다.", HttpStatus.BAD_REQUEST),
     INVALID_VERIF_CODE("NOT_COMPLETE_AUTH","유효하지않은 인증번호", HttpStatus.BAD_REQUEST);
 
