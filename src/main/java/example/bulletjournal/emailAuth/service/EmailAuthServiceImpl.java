@@ -6,6 +6,7 @@ import example.bulletjournal.emailAuth.repository.EmailAuthRepository;
 import example.bulletjournal.enums.CustomExceptionCode;
 import example.bulletjournal.enums.EmailAuthStatus;
 import example.bulletjournal.exception.CustomException;
+import example.bulletjournal.member.repository.MemberRepository;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class EmailAuthServiceImpl implements EmailAuthService {
 
     private final JavaMailSender javaMailSender;
     private final EmailAuthRepository emailAuthRepository;
+    private final MemberRepository memberRepository;
 
     private static final int CODE_LENGTH = 6;
     private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -55,6 +57,11 @@ public class EmailAuthServiceImpl implements EmailAuthService {
     // 이메일 전송
     @Override
     public Map<String, String> sendEmail(String email) {
+
+        if (memberRepository.existsByEmail(email)) {
+            throw new CustomException(CustomExceptionCode.DUPLICATED_EMAIL);
+        }
+
         String code = prepareAndSaveEmailAuth(email);
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();

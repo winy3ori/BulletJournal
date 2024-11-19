@@ -58,6 +58,7 @@ public class MemberServiceImpl implements MemberService {
             // 멤버 저장
             memberRepository.save(member);
 
+            emailAuthRepository.delete(emailAuth);
 
             return memberSignUpDto;
     }
