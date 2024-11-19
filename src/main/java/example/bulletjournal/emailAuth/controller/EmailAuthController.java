@@ -23,7 +23,11 @@ public class EmailAuthController {
     private final EmailAuthService emailAuthService;
 
     @PostMapping("/sendEmail")
-    public ResponseEntity<ResultDTO> sendEmail(@RequestParam String email) {
+    public ResponseEntity<ResultDTO> sendEmail(@RequestBody Map<String, String> emailData) {
+        String email = emailData.get("email");
+        if (email == null || email.isEmpty()) {
+            return ResponseEntity.badRequest().body(ResultDTO.of(false, "Email is required", "이메일을 입력해주세요.", null));
+        }
         try {
             Map<String, String> response = emailAuthService.sendEmail(email);
             return ResponseEntity.ok(ResultDTO.of(true, ApiResponseCode.SUCCESS.getCode(), "인증 이메일 전송 완료", response));
