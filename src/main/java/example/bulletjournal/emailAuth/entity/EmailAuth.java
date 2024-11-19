@@ -17,7 +17,6 @@ public class EmailAuth {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
 
-
     private LocalDateTime regDt;
     private String email;
     private String verityCode;

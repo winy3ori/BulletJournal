@@ -5,13 +5,13 @@ import example.bulletjournal.enums.ApiResponseCode;
 import example.bulletjournal.exception.CustomException;
 import example.bulletjournal.member.dto.MemberSignUpDto;
 import example.bulletjournal.member.service.MemberService;
-import example.bulletjournal.todo.dto.TodoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 @RequiredArgsConstructor
